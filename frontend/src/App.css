@@ -1,0 +1,31 @@
+.main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height:100vh;
+}
+
+.buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.plaid-button {
+  border-radius: 0px;
+  background-color: black;
+  border: none;
+  color: white;
+  padding: 18px;
+  margin: 20px;
+  text-align: center;
+  font-weight: 500;
+  font-size: 16px;
+  transition-duration: 0.2s;
+}
+
+.plaid-button:hover {
+  background-color: #545454;
+  cursor: pointer;
+}
