@@ -6,7 +6,7 @@ import { usePlaidLink } from 'react-plaid-link';
 
 function App() {
     const [linkToken, setLinkToken] = useState('token');
-    const [publicToken, setPublicToken] = useState('public_token')
+    const [publicToken, setPublicToken] = useState(false);
 
     useEffect(() => {
         createLinkToken();
@@ -15,9 +15,17 @@ function App() {
     const { open, ready } = usePlaidLink({
         token: linkToken,
         onSuccess: (public_token, metadata) => {
-          // send public_token to server
-          console.log('Public Token: ' + public_token);
-          setPublicToken(public_token)
+            // send public_token to server
+            console.log('Public Token: ' + public_token);
+            setPublicToken(true);
+            const response = fetch('http://127.0.0.1:8000/set_access_token', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ public_token: public_token}),
+            });
+            console.log(response);
         },
     });
 
@@ -34,14 +42,17 @@ function App() {
     };
 
     return (
-        <div className="main">
-            <div className="buttons">
-                <button className="plaid-button" onClick={() => open()} disabled={!ready}>
-                    Connect a bank account
-                </button>
+        <div className="app">
+            <p className="header">Plaid with EvaDB</p>
+            <div className="main">
+                <div className="buttons">
+                    <button className="plaid-button" onClick={() => open()} disabled={!ready}>
+                        Connect a bank account
+                    </button>
+                </div>
+                {linkToken === 'token' ? <p>Link Token not provided</p> : <p>Plaid link token authenticated</p>}
+                {publicToken ? <p>Link Token exchanged for Public Token</p> : <p>Public Token not exchanged</p>}
             </div>
-            {linkToken === 'token' ? <p>Link Token not provided</p> : <p>Plaid link token authenticated</p>}
-            {publicToken === 'public_token' ? <p>Public Token not exchanged</p> : <p>Link Token exchanged for Public Token</p>}
         </div>
     );
 }

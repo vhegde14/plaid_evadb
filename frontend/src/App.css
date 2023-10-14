@@ -1,9 +1,19 @@
+.app {
+  text-align: center;
+}
+
+.header {
+  font-weight: 700;
+  font-size: 30px;
+  padding: 20px;
+}
+
 .main {
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  height:100vh;
+  height: 80vh;
 }
 
 .buttons {
